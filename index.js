@@ -3,9 +3,13 @@ const app = express()
 
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const cors = require('cors')
 
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
+app.use(cors())
+
+
 let persons = [
     {
         "name": "Arto Hellas",
@@ -39,6 +43,11 @@ const getRandomId = () => {
 app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
+
+app.get('/', (request, response) => {
+    response.redirect('/info')
+}
+)
 
 app.get('/info', (request, response) => {
     response.send(`<div><p>Phonebook has info for ${persons.length} people </p> <p>${Date()} </p>  </div>`)
@@ -90,7 +99,7 @@ app.delete('/api/persons/:id', (request, response) => {
 }
 )
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
