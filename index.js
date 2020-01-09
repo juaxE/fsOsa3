@@ -8,7 +8,7 @@ const cors = require('cors')
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
 app.use(cors())
-
+app.use(express.static('build'))
 
 let persons = [
     {
@@ -43,11 +43,6 @@ const getRandomId = () => {
 app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
-
-app.get('/', (request, response) => {
-    response.redirect('/info')
-}
-)
 
 app.get('/info', (request, response) => {
     response.send(`<div><p>Phonebook has info for ${persons.length} people </p> <p>${Date()} </p>  </div>`)
